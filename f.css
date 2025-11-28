@@ -1,4 +1,39 @@
-* {
+  /* ------------------------------------------------------------------- */
+        /* 1. CORE VARIABLES AND GLOBAL RESETS */
+        /* ------------------------------------------------------------------- */
+        :root {
+            /* Color Palette for Ultra Dark Mode */
+            --color-bg-primary: #121212; /* Deep Dark Background */
+            --color-bg-secondary: #1e1e1e; /* Card Background */
+            --color-bg-surface: #262626; /* Elevated Surface */
+            --color-text-light: #f0f0f0;
+            --color-text-mid: #b0b0b0;
+            --color-border-dark: #333333;
+            
+            /* Brand Accent Colors (High Contrast) */
+            --color-accent-main: #00bcd4; /* Cyan/Teal - Primary focus */
+            --color-accent-secondary: #ff3d00; /* Deep Orange - Danger/Action */
+            
+            /* Status Colors */
+            --color-online: #4CAF50;
+            --color-offline: #f44336;
+            --color-warning: #FFC107;
+            --color-info: #03A9F4;
+
+            /* Glassmorphism Effect Base */
+            --glass-blur: 15px;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+
+            /* Shadow/Elevation */
+            --shadow-soft: 5px 5px 10px rgba(0, 0, 0, 0.4), -5px -5px 10px rgba(45, 45, 45, 0.1);
+            --shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.6);
+            
+            /* Spacing & Radius */
+            --radius-md: 12px;
+        }
+
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -6,10 +41,15 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--color-bg-primary) 0%, #0a0a0a 100%);
             min-height: 100vh;
             font-size: 14px;
+            color: var(--color-text-light);
         }
+
+        /* ------------------------------------------------------------------- */
+        /* 2. LAYOUT & HEADER */
+        /* ------------------------------------------------------------------- */
 
         /* Loading Screen */
         .loading-screen {
@@ -18,13 +58,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--color-bg-primary) 0%, #0a0a0a 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            color: white;
+            color: var(--color-text-light);
         }
 
         .loading-spinner {
@@ -40,8 +80,8 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Setup Modal */
-        .setup-modal {
+        /* Setup & Modal Wrappers - Applying Glassmorphism */
+        .setup-modal, .modal, .password-modal, .device-sms-modal {
             display: flex;
             position: fixed;
             z-index: 1000;
@@ -49,52 +89,42 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7); /* Darker backdrop */
+            backdrop-filter: blur(var(--glass-blur)); /* Glass backdrop */
+            -webkit-backdrop-filter: blur(var(--glass-blur));
             justify-content: center;
             align-items: center;
         }
 
-        .setup-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        /* General Modal Content Container */
+        .setup-content, .modal-content, .password-content {
+            background: rgba(30, 30, 30, 0.9); /* Slightly transparent dark background */
+            color: var(--color-text-light);
+            padding: 30px; 
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-heavy);
             width: 90%;
             max-width: 400px;
+            border: var(--glass-border);
             text-align: center;
+        }
+        
+        .modal-content {
+             max-width: 380px; /* Slightly wider for better login presentation */
+        }
+        
+        .password-content {
+             max-width: 350px;
         }
 
         .setup-content h2 {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            background: linear-gradient(45deg, var(--color-accent-main), #00e5ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
             font-size: 1.5rem;
         }
-
-        /* Modal Styles */
-        .modal {
-            display: flex;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            width: 90%;
-            max-width: 350px;
-        }
-
+        
         .modal-content.large {
             max-width: 900px;
             max-height: 80vh;
@@ -112,11 +142,11 @@
             font-size: 24px;
             font-weight: bold;
             cursor: pointer;
-            color: #aaa;
+            color: var(--color-text-mid);
         }
 
         .close:hover {
-            color: #000;
+            color: var(--color-accent-main);
         }
 
         /* Hidden Class */
@@ -129,12 +159,15 @@
             min-height: 100vh;
         }
 
+        /* Header - Applying Glassmorphism */
         .header {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
             padding: 15px 20px;
-            color: white;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            color: var(--color-text-light);
+            border-bottom: var(--glass-border);
+            box-shadow: var(--shadow-heavy);
         }
 
         .header-content {
@@ -149,7 +182,7 @@
         .header h1 {
             font-size: 1.8rem;
             margin-bottom: 8px;
-            background: #ffffff;
+            background: linear-gradient(45deg, var(--color-accent-main), #64ffda);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: bold;
@@ -167,50 +200,57 @@
             border-radius: 18px;
             font-weight: bold;
             font-size: 0.8rem;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
+            background: var(--color-bg-surface);
+            color: var(--color-text-light);
+            border: 2px solid var(--color-border-dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
         .stat-badge.online {
-            border: 2px solid #4CAF50;
+            border-color: var(--color-online);
         }
 
         .stat-badge.total {
-            border: 2px solid #2196F3;
+            border-color: var(--color-info);
         }
 
-        /* Navigation */
+        /* Navigation Buttons - Soft, modern look */
         .navbar {
-            background: rgba(255,255,255,0.95);
+            background: var(--color-bg-secondary);
             padding: 12px;
             display: flex;
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border-bottom: 1px solid var(--color-border-dark);
         }
 
         .nav-btn {
             padding: 10px 20px;
-            border: none;
+            border: 1px solid var(--color-border-dark);
             border-radius: 20px;
-            background: #f0f0f0;
-            color: #333;
+            background: var(--color-bg-surface);
+            color: var(--color-text-mid);
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
             font-size: 0.85rem;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .nav-btn:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
+            background: var(--color-bg-surface);
+            color: var(--color-text-light);
+            transform: translateY(-1px);
+            box-shadow: 0 0 15px var(--color-accent-main);
         }
 
         .nav-btn.active {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            color: white;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            background: linear-gradient(45deg, var(--color-accent-main), #00e5ff);
+            color: var(--color-bg-secondary);
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+            font-weight: bold;
         }
 
         /* Main Content */
@@ -220,12 +260,14 @@
             padding: 15px;
         }
 
+        /* Content Section - Elevated Cards */
         .content-section {
-            background: white;
-            border-radius: 12px;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
             padding: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-heavy);
             margin-bottom: 15px;
+            border: 1px solid var(--color-border-dark);
         }
 
         .section-header {
@@ -238,9 +280,9 @@
         }
 
         .section-header h2 {
-            color: #333;
+            color: var(--color-text-light);
             font-size: 1.3rem;
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            background: linear-gradient(45deg, var(--color-accent-main), #64ffda);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: bold;
@@ -255,7 +297,9 @@
         .search-box input {
             width: 100%;
             padding: 10px 35px 10px 12px;
-            border: 2px solid #e0e0e0;
+            background: var(--color-bg-surface);
+            color: var(--color-text-light);
+            border: 1px solid var(--color-border-dark);
             border-radius: 20px;
             font-size: 13px;
             transition: all 0.3s ease;
@@ -263,8 +307,8 @@
 
         .search-box input:focus {
             outline: none;
-            border-color: #FF6B6B;
-            box-shadow: 0 0 8px rgba(255, 107, 107, 0.2);
+            border-color: var(--color-accent-main);
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
         }
 
         .search-box i {
@@ -272,14 +316,14 @@
             right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #666;
+            color: var(--color-text-mid);
             font-size: 14px;
         }
 
         /* Search Results Header */
         .search-results-header {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            color: white;
+            background: linear-gradient(90deg, var(--color-accent-main), #00e5ff);
+            color: var(--color-bg-secondary);
             padding: 12px 18px;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -287,6 +331,7 @@
             justify-content: space-between;
             align-items: center;
             animation: slideDown 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 188, 212, 0.4);
         }
 
         @keyframes slideDown {
@@ -306,16 +351,17 @@
         }
 
         .search-results-count {
-            background: rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.2);
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: bold;
+            color: white;
         }
 
         .clear-search {
-            background: rgba(255,255,255,0.2);
-            border: none;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             color: white;
             padding: 6px 12px;
             border-radius: 15px;
@@ -325,7 +371,7 @@
         }
 
         .clear-search:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
         }
 
         /* Users Grid */
@@ -335,45 +381,46 @@
             gap: 15px;
         }
 
+        /* User Card - Soft Shadowing/Neumorphism on Dark */
         .user-card {
-            background: #f8f9fa;
-            border-radius: 12px;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
             padding: 18px;
-            border-left: 4px solid #FF6B6B;
+            border-left: 4px solid var(--color-accent-main);
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-soft);
         }
 
         .user-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
         }
 
         .user-card.online {
-            border-left-color: #4CAF50;
+            border-left-color: var(--color-online);
         }
 
         .user-card.offline {
-            border-left-color: #f44336;
+            border-left-color: var(--color-offline);
         }
 
         .user-card.pinned {
             border: 2px solid #FFD700;
-            background: #fffdf0;
+            background: #2a2a1a;
         }
 
         .user-card.highlight {
-            border: 2px solid #FF6B6B;
-            background: #fff5f5;
+            border: 2px solid var(--color-accent-main);
+            background: #1e2a2a;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(255, 107, 107, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(0, 188, 212, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(0, 188, 212, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 188, 212, 0); }
         }
 
         .user-header {
@@ -391,7 +438,7 @@
         }
 
         .device-serial {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            background: linear-gradient(45deg, var(--color-accent-main), #00e5ff);
             color: white;
             width: 32px;
             height: 32px;
@@ -400,9 +447,7 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.85rem;
-            margin-right: 8px;
-            box-shadow: 0 2px 6px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 188, 212, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -413,18 +458,18 @@
 
         .device-icon {
             font-size: 22px;
-            color: #FF6B6B;
+            color: var(--color-accent-main);
         }
 
         .user-id {
             font-weight: bold;
-            color: #333;
+            color: var(--color-text-light);
             font-size: 1rem;
         }
 
         .device-model {
             font-size: 0.75rem;
-            color: #666;
+            color: var(--color-text-mid);
             margin-top: 2px;
         }
 
@@ -437,12 +482,12 @@
         }
 
         .status-online {
-            background: #4CAF50;
+            background: var(--color-online);
             color: white;
         }
 
         .status-offline {
-            background: #f44336;
+            background: var(--color-offline);
             color: white;
         }
 
@@ -466,13 +511,13 @@
             gap: 4px;
             margin-top: 8px;
             font-size: 0.75rem;
-            color: #666;
+            color: var(--color-text-mid);
         }
 
         .battery-level {
             width: 70px;
             height: 18px;
-            background: #e0e0e0;
+            background: var(--color-border-dark);
             border-radius: 9px;
             overflow: hidden;
             position: relative;
@@ -480,21 +525,21 @@
 
         .battery-fill {
             height: 100%;
-            background: #4CAF50;
+            background: var(--color-online);
             border-radius: 9px;
             transition: width 0.3s ease;
         }
 
         .battery-low {
-            background: #f44336;
+            background: var(--color-offline);
         }
 
         .battery-medium {
-            background: #ff9800;
+            background: var(--color-warning);
         }
 
         .user-info {
-            color: #666;
+            color: var(--color-text-mid);
             font-size: 0.85rem;
             line-height: 1.4;
             margin-top: 8px;
@@ -511,9 +556,9 @@
         .btn {
             padding: 6px 12px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.3s ease;
             font-size: 0.75rem;
             display: flex;
@@ -522,32 +567,38 @@
         }
 
         .btn-primary {
-            background: #ff1f00;
-            color: white;
+            background: var(--color-accent-main);
+            color: var(--color-bg-primary);
         }
 
         .btn-primary:hover {
+            background: #00e5ff;
             transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 188, 212, 0.5);
         }
 
         .btn-success {
-            background: #4CAF50;
+            background: var(--color-online);
             color: white;
         }
 
         .btn-warning {
-            background: #ff9800;
-            color: white;
+            background: var(--color-warning);
+            color: var(--color-bg-primary);
         }
 
         .btn-danger {
-            background: #f44336;
+            background: var(--color-offline);
             color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e63939;
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.5);
         }
 
         .btn-info {
-            background: #2196F3;
+            background: var(--color-info);
             color: white;
         }
 
@@ -557,14 +608,14 @@
         }
 
         .btn-group {
-            background: #9C27B0;
+            background: #FF6B6B;
             color: white;
         }
 
         .btn-logout {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: var(--color-text-light);
+            border: 1px solid var(--color-border-dark);
             padding: 6px 15px;
             border-radius: 15px;
             cursor: pointer;
@@ -573,24 +624,29 @@
         }
 
         .btn-logout:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
         }
 
-        /* Form Styles */
+        /* Form Styles - Enhanced for modal depth */
         .form-input {
             width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+            padding: 12px 15px; 
+            background: var(--color-bg-primary);
+            color: var(--color-text-light);
+            border: 1px solid var(--color-border-dark);
+            border-radius: 8px;
             font-size: 13px;
             transition: all 0.3s ease;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            /* Neumorphic Inset Shadow */
+            box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.6), inset -3px -3px 6px rgba(45, 45, 45, 0.1); 
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #FF6B6B;
-            box-shadow: 0 0 8px rgba(255, 107, 107, 0.2);
+            border-color: var(--color-accent-main);
+            /* Subtle glow on focus */
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 188, 212, 0.6); 
         }
 
         .form-group {
@@ -599,9 +655,8 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 6px;
             font-weight: 600;
-            color: #333;
+            color: var(--color-text-light);
             font-size: 0.85rem;
         }
 
@@ -611,18 +666,20 @@
             overflow-y: auto;
         }
 
+        /* SMS Card Styles */
         .sms-item {
-            background: #f8f9fa;
+            background: var(--color-bg-surface);
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 12px;
-            border-left: 3px solid #2196F3;
+            border-left: 3px solid var(--color-info);
             transition: all 0.3s ease;
+            border: 1px solid var(--color-border-dark);
         }
 
         .sms-item.highlight {
-            border-left-color: #FF6B6B;
-            background: #fff5f5;
+            border-left-color: var(--color-accent-main);
+            background: #1e2a2a;
             animation: pulse 2s infinite;
         }
 
@@ -635,17 +692,17 @@
 
         .sms-sender {
             font-weight: bold;
-            color: #333;
+            color: var(--color-text-light);
             font-size: 0.9rem;
         }
 
         .sms-date {
-            color: #666;
+            color: var(--color-text-mid);
             font-size: 0.75rem;
         }
 
         .sms-body {
-            color: #555;
+            color: var(--color-text-light);
             line-height: 1.4;
             font-size: 0.85rem;
         }
@@ -653,14 +710,14 @@
         .sms-device {
             margin-top: 8px;
             font-size: 0.75rem;
-            color: #888;
+            color: var(--color-text-mid);
             display: flex;
             justify-content: space-between;
         }
 
         .sms-serial {
             font-weight: bold;
-            color: #FF6B6B;
+            color: var(--color-accent-main);
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -678,13 +735,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid var(--color-border-dark);
+            margin-bottom: 15px; /* Added spacing */
         }
 
         .data-group-title {
-            background: linear-gradient(45deg, #9C27B0, #E91E63);
+            background: linear-gradient(45deg, #FF6B6B, #F44336);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 1.2rem;
@@ -692,7 +749,7 @@
         }
 
         .data-size-badge {
-            background: #9C27B0;
+            background: #F44336;
             color: white;
             padding: 4px 10px;
             border-radius: 12px;
@@ -708,16 +765,15 @@
         }
 
         .serial-group {
-            background: #f8f9fa;
-            border-radius: 12px;
+            background: var(--color-bg-surface);
+            border-radius: var(--radius-md);
             padding: 0;
-            overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            border-left: 4px solid #9C27B0;
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid #F44336;
         }
 
         .serial-header {
-            background: linear-gradient(45deg, #9C27B0, #E91E63);
+            background: linear-gradient(45deg, #F44336, #FF6B6B);
             color: white;
             padding: 15px 20px;
             display: flex;
@@ -725,6 +781,7 @@
             align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
         .serial-header:hover {
@@ -738,7 +795,7 @@
         }
 
         .serial-number {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -747,7 +804,7 @@
             justify-content: center;
             font-weight: bold;
             font-size: 1rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
         .device-details {
@@ -783,14 +840,15 @@
         .login-records.expanded {
             max-height: 1000px;
             padding: 20px;
+            background: var(--color-bg-secondary);
         }
 
         .login-record {
-            background: white;
+            background: var(--color-bg-primary);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 12px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--color-border-dark);
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
@@ -814,35 +872,35 @@
 
         .login-key {
             font-weight: bold;
-            color: #9C27B0;
+            color: #FF6B6B;
             min-width: 150px;
         }
 
         .login-value {
-            color: #333;
+            color: var(--color-text-light);
             flex: 1;
             word-break: break-all;
         }
 
         .empty-records {
             text-align: center;
-            padding: 20px;
-            color: #666;
+            padding: 30px;
+            color: var(--color-text-mid);
             font-style: italic;
         }
 
         /* Settings Cards */
         .settings-card {
-            background: #f8f9fa;
+            background: var(--color-bg-surface);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--color-border-dark);
         }
 
         .settings-card h3 {
             margin-bottom: 15px;
-            color: #333;
+            color: var(--color-text-light);
             font-size: 1.1rem;
         }
 
@@ -856,17 +914,17 @@
         .char-counter {
             text-align: right;
             font-size: 0.75rem;
-            color: #666;
+            color: var(--color-text-mid);
             margin-top: -8px;
             margin-bottom: 12px;
         }
 
         .char-counter.warning {
-            color: #ff9800;
+            color: var(--color-warning);
         }
 
         .char-counter.error {
-            color: #f44336;
+            color: var(--color-offline);
         }
 
         /* User Details Styles */
@@ -878,15 +936,16 @@
         }
 
         .detail-card {
-            background: #f8f9fa;
+            background: var(--color-bg-surface);
             padding: 12px;
             border-radius: 6px;
-            border-left: 3px solid #FF6B6B;
+            border-left: 3px solid var(--color-accent-main);
+            color: var(--color-text-light);
         }
 
         .detail-card h4 {
             margin-bottom: 8px;
-            color: #333;
+            color: var(--color-text-light);
             font-size: 0.9rem;
         }
 
@@ -899,16 +958,16 @@
 
         .detail-label {
             font-weight: 600;
-            color: #555;
+            color: var(--color-text-mid);
         }
 
         .detail-value {
-            color: #333;
+            color: var(--color-text-light);
         }
 
         /* Status Check Button */
         .status-check-btn {
-            background: #ff9800;
+            background: var(--color-warning);
             color: white;
             border: none;
             padding: 4px 8px;
@@ -924,59 +983,31 @@
 
         /* Password Verification Modal */
         .password-modal {
-            display: flex;
-            position: fixed;
             z-index: 1001;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
         }
 
         .password-content {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            width: 90%;
-            max-width: 350px;
-            text-align: center;
+            z-index: 1001;
         }
 
         .password-content h3 {
             margin-bottom: 15px;
-            color: #333;
+            color: var(--color-text-light);
             font-size: 1.1rem;
         }
 
         /* Device SMS Modal */
-        .device-sms-modal {
-            display: flex;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
         .device-sms-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid var(--color-border-dark);
+            margin-bottom: 15px; /* Added spacing */
         }
 
         .device-sms-title {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            background: linear-gradient(45deg, var(--color-accent-main), #00e5ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 1.3rem;
@@ -984,7 +1015,7 @@
         }
 
         .sms-count-badge {
-            background: #2196F3;
+            background: var(--color-info);
             color: white;
             padding: 4px 10px;
             border-radius: 12px;
@@ -993,14 +1024,15 @@
         }
 
         /* Banking SMS Styles */
-        .banking-sms {
-            border-left-color: #4CAF50 !important;
-            background: #f1f8e9 !important;
+        /* Updated class name for Payment/Transaction */
+        .payment-transaction-sms {
+            border-left-color: var(--color-online) !important;
+            background: #1c2a1c !important; /* Darker green tint */
         }
 
         .otp-sms {
-            border-left-color: #FF9800 !important;
-            background: #fff3e0 !important;
+            border-left-color: var(--color-warning) !important;
+            background: #2a2a1a !important; /* Darker yellow tint */
         }
 
         /* Responsive Design */
@@ -1078,14 +1110,15 @@
             top: 15px;
             right: 15px;
             padding: 12px 20px;
-            background: #333;
-            color: white;
+            background: var(--color-bg-surface);
+            color: var(--color-text-light);
             border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-heavy);
             z-index: 1001;
             transform: translateX(350px);
             transition: transform 0.3s ease;
             font-size: 0.85rem;
+            border: 1px solid var(--color-border-dark);
         }
 
         .toast.show {
@@ -1093,22 +1126,25 @@
         }
 
         .toast.success {
-            background: #4CAF50;
+            background: var(--color-online);
+            color: var(--color-bg-primary);
         }
 
         .toast.error {
-            background: #f44336;
+            background: var(--color-offline);
+            color: white;
         }
 
         .toast.warning {
-            background: #ff9800;
+            background: var(--color-warning);
+            color: var(--color-bg-primary);
         }
 
         /* Tabs */
         .tabs {
             display: flex;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 15px;
+            border-bottom: 2px solid var(--color-border-dark);
+            margin-bottom: 0; 
             flex-wrap: wrap;
         }
 
@@ -1122,30 +1158,35 @@
         }
 
         .tab.active {
-            border-bottom-color: #FF6B6B;
-            color: #FF6B6B;
+            border-bottom-color: var(--color-accent-main);
+            color: var(--color-accent-main);
             font-weight: 600;
         }
 
+        /* Action Row Wrapper (Buttons) */
+        .action-row-wrapper {
+            background: var(--color-bg-secondary);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--color-border-dark);
+            box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+
         .tab-content {
-            display: none;
+            /* This class is not actively used in the provided JS structure. */
         }
-
-        .tab-content.active {
-            display: block;
-        }
-
+        
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 30px;
-            color: #666;
+            color: var(--color-text-mid);
         }
 
         .empty-state i {
             font-size: 2.5rem;
             margin-bottom: 12px;
-            color: #ccc;
+            color: var(--color-border-dark);
         }
 
         .empty-state h3 {
@@ -1156,3 +1197,41 @@
         .empty-state p {
             font-size: 0.85rem;
         }
+        
+        /* --- START OF REQUESTED ADJUSTMENTS for Larger Buttons (Login & Send SMS) --- */
+        
+        /* 1. Target the base button for size increase (will affect all .btn) */
+        .btn {
+            padding: 10px 20px; /* Increase padding to make the button physically larger */
+            font-size: 0.95rem; /* Increase font size for better visibility */
+            gap: 8px; /* Increase gap for icon/text separation */
+            border-radius: 12px; /* Double the border-radius for a slightly softer, larger look */
+        }
+
+        /* 2. Target the primary button to ensure a strong presence */
+        .btn-primary {
+            font-weight: 800; /* Ensure bold font weight for emphasis */
+        }
+
+        /* 3. Specifically target the Login and Send SMS buttons inside their modals 
+           to make them even more prominent, using !important for override */
+        #loginModal .btn-primary,
+        #sendSMSModal .btn-primary {
+            font-size: 1.1rem !important; 
+            padding: 15px 30px !important; 
+            font-weight: bold !important;
+        }
+        
+        /* 4. Ensure the Send/Forward buttons inside user card are reasonably sized */
+        .user-card .header .nav-btn {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+        }
+
+        /* Reset for the small logout button */
+        .btn-logout {
+            font-size: 0.8rem;
+            padding: 6px 15px;
+        }
+        
+        /* --- END OF REQUESTED ADJUSTMENTS --- */
